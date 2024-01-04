@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <script>
+        async function customfunc(){
+            var vl=document.getElementById("inputbox").value
+            const arr=vl.split(",")
+            
+            const resp=await fetch("http://localhost:3000/getWeather", {
+            method: "POST",
+            body: JSON.stringify({
+            cities:[...arr]
+      }),
+      headers: {
+        "Content-type": "application/json"
+      }
+    })
+    const obj=await resp.json()
+    
+    const arv=Object.values(obj['Weather_in_C'])
+    const ark=Object.keys(obj['Weather_in_C'])
+    //console.log(ar)
+    const output=document.getElementById("output")
+    output.innerHTML=""
+    for(var i=0;i<arv.length;i++){
+        const temp=document.createElement("div")
+        temp.innerHTML=ark[i]+":"+arv[i]+" C"
+        output.appendChild(temp)
+       
+    }
+    
+            
+    
+        }
+        
+        
+    </script>
+    <h1>Hello! Welcome to mini Weather app</h1>
+
+    <input id="inputbox" type="text"> Enter the cities !</input>
+    <br>
+    <br>
+    <button id="button" onclick="customfunc()">Get results</button>
+    <br>
+    <br>
+    <div id="output">
+    </div>
+
+</body>
+
+</html>
